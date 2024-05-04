@@ -40,7 +40,7 @@ abstract class Controller
     {
         $response = json_decode($response, true);
         if (!$response['status']) {
-            die;
+            throw new \Exception("Internal Server Error");
         }
     }
 
