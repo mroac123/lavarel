@@ -1,0 +1,30 @@
+{
+    "name": "lavarel/pdprj",
+    "description": "Description",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Illuminate\\Routing\\": "src/Illuminate/Routing/",
+            "Iluminate\\Foundation\\": "src/Illuminate/Foundation/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/",
+            "Illuminate\\Routing\\": "src/Illuminate/Routing/",
+            "Iluminate\\Foundation\\": "src/Illuminate/Foundation/"
+        }
+    },
+    "require": {
+        "php": "^7.1 || ^8.0",
+        "ext-dom": "*",
+        "ext-mbstring": "*",
+        "laravel/framework": "^10.0"
+    },
+    "require-dev": {
+        "ext-json": "*",
+        "ext-zip": "*"
+    }
+}
